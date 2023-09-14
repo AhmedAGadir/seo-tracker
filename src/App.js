@@ -41,36 +41,37 @@ function MetricRenderer(props) {
 function App() {
 	const [rowData, setRowData] = useState([
 		// fetch from local storage, if not there hard code 1 freelancer
-		...(JSON.parse(localStorage.getItem("rowData")) || [
-			{
-				freelancer: "John Doe",
-				upworkProfile: "https://www.upwork.com/freelancers/~01a234b56c789d0123",
-				willowLink: "https://willowtreeapps.com/",
-				website: "https://www.johndoe.com",
-				"performance-desktop": 100,
-				"accessibiltiy-desktop": 90,
-				"best practices-desktop": 60,
-				"seo-desktop": 50,
-				"performance-mobile": 40,
-				"accessibiltiy-mobile": 90,
-				"best practices-mobile": 60,
-				"seo-mobile": 70,
-			},
-			{
-				freelancer: "Jane Doe",
-				upworkProfile: "https://www.upwork.com/freelancers/~01a234b56c789d0123",
-				willowLink: "https://willowtreeapps.com/",
-				website: "https://www.johndoe.com",
-				"performance-desktop": 40,
-				"accessibiltiy-desktop": 50,
-				"best practices-desktop": 100,
-				"seo-desktop": 20,
-				"performance-mobile": 30,
-				"accessibiltiy-mobile": 10,
-				"best practices-mobile": 90,
-				"seo-mobile": 60,
-			},
-		]),
+		...(JSON.parse(localStorage.getItem("rowData")) ||
+			[
+				// {
+				// 	freelancer: "John Doe",
+				// 	upworkProfile: "https://www.upwork.com/freelancers/~01a234b56c789d0123",
+				// 	willowLink: "https://willowtreeapps.com/",
+				// 	website: "https://www.johndoe.com",
+				// 	"performance-desktop": 100,
+				// 	"accessibiltiy-desktop": 90,
+				// 	"best practices-desktop": 60,
+				// 	"seo-desktop": 50,
+				// 	"performance-mobile": 40,
+				// 	"accessibiltiy-mobile": 90,
+				// 	"best practices-mobile": 60,
+				// 	"seo-mobile": 70,
+				// },
+				// {
+				// 	freelancer: "Jane Doe",
+				// 	upworkProfile: "https://www.upwork.com/freelancers/~01a234b56c789d0123",
+				// 	willowLink: "https://willowtreeapps.com/",
+				// 	website: "https://www.johndoe.com",
+				// 	"performance-desktop": 40,
+				// 	"accessibiltiy-desktop": 50,
+				// 	"best practices-desktop": 100,
+				// 	"seo-desktop": 20,
+				// 	"performance-mobile": 30,
+				// 	"accessibiltiy-mobile": 10,
+				// 	"best practices-mobile": 90,
+				// 	"seo-mobile": 60,
+				// },
+			]),
 	]);
 
 	useEffect(() => {
