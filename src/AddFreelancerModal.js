@@ -6,42 +6,47 @@ import {
 	DialogFooter,
 } from "@material-tailwind/react";
 
-function AddFreelancerModal(props) {
-	const [open, setOpen] = useState(false);
-	const [formData, setFormData] = useState({});
+const getEmptyForm = () => ({
+	id: Math.random().toString(36).substr(2, 9),
+	freelancer: "",
+	willowLink: "",
+	upworkProfile: "",
+	website: "",
+	"performance-desktop": 0,
+	"accessibiltiy-desktop": 0,
+	"best practices-desktop": 0,
+	"seo-desktop": 0,
+	"performance-mobile": 0,
+	"accessibiltiy-mobile": 0,
+	"best practices-mobile": 0,
+	"seo-mobile": 0,
+});
 
-	const handleOpen = () => setOpen(!open);
+function AddFreelancerModal({
+	addOrUpdateFreelancer,
+	editingFreelancer,
+	open,
+	handleOpen,
+	cancelEdit,
+}) {
+	const [formData, setFormData] = useState(editingFreelancer || getEmptyForm());
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData({
-			...formData,
-			[name]: value,
-		});
+		setFormData((prev) => ({
+			...prev,
+			[name]: value === "" ? "" : isNaN(value) ? value : Number(value),
+		}));
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log("Form data submitted:", formData);
 
-		const newFreelancer = {
-			freelancer: formData.freelancer,
-			willowLink: formData.willowLink,
-			upworkProfile: formData.upworkProfile,
-			website: formData.website,
-			"performance-desktop": formData["performance-desktop"],
-			"accessibiltiy-desktop": formData["accessibiltiy-desktop"],
-			"best practices-desktop": formData["best practices-desktop"],
-			"seo-desktop": formData["seo-desktop"],
-			"performance-mobile": formData["performance-mobile"],
-			"accessibiltiy-mobile": formData["accessibiltiy-mobile"],
-			"best practices-mobile": formData["best practices-mobile"],
-			"seo-mobile": formData["seo-mobile"],
-		};
+		addOrUpdateFreelancer(formData);
+		setFormData(getEmptyForm());
 
-		props.addFreelancer(newFreelancer);
-
-		handleOpen(); // close the modal after submission
+		handleOpen();
 	};
 
 	useEffect(() => {
@@ -128,7 +133,7 @@ function AddFreelancerModal(props) {
 								type: "number",
 							},
 						].map(({ field, label, type }) => (
-							<div className="flex items-center justify-between">
+							<div className="flex items-center justify-between" key={field}>
 								<label htmlFor={field} className="text-sm font-medium">
 									{label}
 								</label>
@@ -138,26 +143,25 @@ function AddFreelancerModal(props) {
 									name={field}
 									className="w-2/3 p-2 rounded-md bg-gray-800 text-white"
 									onChange={handleChange}
+									value={formData[field]}
 								/>
 							</div>
 						))}
-						{/* Add additional fields here in the same manner */}
+						<button
+							type="submit"
+							onClick={cancelEdit}
+							className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+						>
+							Cancel
+						</button>
+						<button
+							onClick={handleSubmit}
+							className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+						>
+							Save
+						</button>
 					</form>
 				</DialogBody>
-				<DialogFooter className="bg-gray-800 p-4 rounded-b-lg">
-					<button
-						onClick={handleOpen}
-						className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-					>
-						Cancel
-					</button>
-					<button
-						onClick={handleSubmit}
-						className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-					>
-						Save
-					</button>
-				</DialogFooter>
 			</Dialog>
 		</>
 	);
