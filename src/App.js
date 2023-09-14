@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 import AddFreelancerModal from "./AddFreelancerModal";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-enterprise";
+
 import "./App.css";
 
 function ActionsRenderer(props) {
 	const { editFreelancer, deleteFreelancer, data } = props;
 	return (
-		<div className="flex flex-row justify-between align-middle mt-1">
-			<span
+		<div className="flex flex-row justify-between align-middle mt-3">
+			{/* <span
 				className="text-gray-600 hover:text-blue-800 cursor-pointer"
 				onClick={() => {
 					editFreelancer(data.id);
@@ -30,7 +32,7 @@ function ActionsRenderer(props) {
 						d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
 					/>
 				</svg>
-			</span>
+			</span> */}
 			<span
 				className="text-gray-600 hover:text-red-800 cursor-pointer"
 				onClick={() => {
@@ -81,10 +83,10 @@ function MetricRenderer(props) {
 			<span
 				className={
 					value < 33
-						? "text-red-600 text-bold"
+						? "text-red-600 text-bold mt-1 inline-block"
 						: value < 66
-						? "text-yellow-600 text-bold"
-						: "text-green-600 text-bold"
+						? "text-yellow-600 text-bold mt-1 inline-block"
+						: "text-green-600 text-bold mt-1 inline-block"
 				}
 			>
 				{value}
@@ -95,7 +97,6 @@ function MetricRenderer(props) {
 
 function App() {
 	const [rowData, setRowData] = useState([
-		// fetch from local storage, if not there hard code 1 freelancer
 		...(JSON.parse(localStorage.getItem("rowData")) || [
 			{
 				id: "1",
@@ -132,8 +133,6 @@ function App() {
 	const [editingFreelancerId, setEditingFreelancerId] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 
-	const handleOpen = () => setModalOpen(!modalOpen);
-
 	const editingFreelancer =
 		rowData.find((row) => row.id === editingFreelancerId) ?? null;
 
@@ -165,68 +164,112 @@ function App() {
 	);
 
 	const [columnDefs] = useState([
-		{ field: "freelancer", minWidth: 200 },
-		{ field: "upworkProfile", minWidth: 100, cellRenderer: LinkRenderer },
-		{ field: "willowLink", minWidth: 100, cellRenderer: LinkRenderer },
-		{ field: "website", minWidth: 120, cellRenderer: LinkRenderer },
 		{
-			headerName: "Desktop",
+			field: "freelancer",
+			maxWidth: 200,
+			width: 150,
+			pinned: "left",
+			filter: "agTextColumnFilter",
+		},
+		{
+			field: "upworkProfile",
+			minWidth: 100,
+			cellRenderer: LinkRenderer,
+			hide: true,
+		},
+		{
+			field: "willowLink",
+			minWidth: 100,
+			cellRenderer: LinkRenderer,
+			hide: true,
+		},
+		{ field: "website", minWidth: 120, cellRenderer: LinkRenderer, hide: true },
+		{
+			headerName: "Performance",
 			children: [
 				{
 					field: "performance-desktop",
-					headerName: "Performance",
+					headerName: "Desktop",
 					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
 				},
 				{
-					field: "accessibiltiy-desktop",
-					headerName: "Accessibiltiy",
+					field: "performance-mobile",
+					headerName: "Mobile",
 					cellRenderer: MetricRenderer,
-				},
-				{
-					field: "best practices-desktop",
-					headerName: "Best Practices",
-					cellRenderer: MetricRenderer,
-				},
-				{
-					field: "seo-desktop",
-					headerName: "SEO",
-					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
 				},
 			],
 		},
 		{
-			headerName: "Mobile",
+			headerName: "Accessibiltiy",
 			children: [
 				{
-					field: "performance-mobile",
-					headerName: "Performance",
+					field: "accessibiltiy-desktop",
+					headerName: "Desktop",
 					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "accessibiltiy-mobile",
-					headerName: "Accessibiltiy",
+					headerName: "Mobile",
 					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
+				},
+			],
+		},
+		{
+			headerName: "Best Practices",
+			children: [
+				{
+					field: "best practices-desktop",
+					headerName: "Desktop",
+					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "best practices-mobile",
-					headerName: "Best Practices",
+					headerName: "Mobile",
 					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
+				},
+			],
+		},
+		{
+			headerName: "SEO",
+			children: [
+				{
+					field: "seo-desktop",
+					headerName: "Desktop",
+					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "seo-mobile",
-					headerName: "SEO",
+					headerName: "Mobile",
 					cellRenderer: MetricRenderer,
+					filter: "agNumberColumnFilter",
+					menuTabs: ["filterMenuTab"],
 				},
 			],
 		},
 		{
 			field: "actions",
 			headerName: "",
+			pinned: "right",
 			resizable: false,
 			sortable: false,
 			filter: false,
-			minWidth: 100,
-			maxWidth: 100,
+			menuTabs: [],
+			minWidth: 60,
+			maxWidth: 60,
 			cellRenderer: ActionsRenderer,
 			cellRendererParams: {
 				editFreelancer,
@@ -236,7 +279,9 @@ function App() {
 	]);
 
 	const onGridReady = (params) => {
-		params.api.sizeColumnsToFit();
+		// params.columnApi.autoSizeAllColumns();
+		// collapse sidebar
+		params.api.closeToolPanel();
 	};
 
 	const addFreelancer = (newFreelancer) => {
@@ -261,6 +306,32 @@ function App() {
 		setModalOpen(false);
 	};
 
+	const sideBar = useMemo(() => {
+		return {
+			toolPanels: [
+				{
+					id: "columns",
+					labelDefault: "Columns",
+					labelKey: "columns",
+					iconKey: "columns",
+					toolPanel: "agColumnsToolPanel",
+				},
+				{
+					id: "filters",
+					labelDefault: "Filters",
+					labelKey: "filters",
+					iconKey: "filter",
+					toolPanel: "agFiltersToolPanel",
+				},
+			],
+			defaultToolPanel: "columns",
+		};
+	}, []);
+
+	const onCellValueChanged = (params) => {
+		console.log("rowData", rowData);
+	};
+
 	return (
 		<div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 			<AddFreelancerModal
@@ -268,8 +339,9 @@ function App() {
 				cancelEdit={cancelEdit}
 				addOrUpdateFreelancer={addOrUpdateFreelancer}
 				editingFreelancer={editingFreelancer}
-				open={modalOpen}
-				handleOpen={handleOpen}
+				isOpen={modalOpen}
+				open={() => setModalOpen(true)}
+				close={() => setModalOpen(false)}
 			/>
 
 			<div className="ag-theme-alpine-dark" style={{ flex: 1, width: "100vw" }}>
@@ -281,8 +353,12 @@ function App() {
 						sortable: true,
 						filter: true,
 						resizable: true,
+						flex: 1,
+						editable: true,
 					}}
 					rowHeight={50}
+					sideBar={sideBar}
+					onCellValueChanged={onCellValueChanged}
 				></AgGridReact>
 			</div>
 		</div>

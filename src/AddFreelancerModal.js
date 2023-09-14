@@ -25,8 +25,9 @@ const getEmptyForm = () => ({
 function AddFreelancerModal({
 	addOrUpdateFreelancer,
 	editingFreelancer,
+	isOpen,
 	open,
-	handleOpen,
+	close,
 	cancelEdit,
 }) {
 	const [formData, setFormData] = useState(editingFreelancer || getEmptyForm());
@@ -46,7 +47,7 @@ function AddFreelancerModal({
 		addOrUpdateFreelancer(formData);
 		setFormData(getEmptyForm());
 
-		handleOpen();
+		close();
 	};
 
 	useEffect(() => {
@@ -56,14 +57,14 @@ function AddFreelancerModal({
 	return (
 		<>
 			<button
-				onClick={handleOpen}
-				className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+				onClick={open}
+				className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4"
 			>
 				Add Freelancer
 			</button>
 			<Dialog
-				open={open}
-				handler={handleOpen}
+				open={isOpen}
+				handler={open}
 				className="w-1/2 bg-gray-900 text-white rounded-lg shadow-lg border-2 border-gray-700 mx-auto mt-5"
 			>
 				<DialogHeader className="text-lg font-semibold bg-gray-800 p-4 rounded-t-lg">
