@@ -66,7 +66,8 @@ function LinkRenderer(props) {
 				rel="noreferrer"
 				className="text-blue-600 hover:text-blue-800"
 			>
-				{value}
+				{/* format link to remove the http/https/www.*/}
+				{value.replace(/(^\w+:|^)\/\//, "").replace(/www./, "")}
 			</a>
 		</div>
 	);
@@ -78,9 +79,13 @@ function MetricRenderer(props) {
 	return (
 		<div>
 			<span
-				style={{
-					color: value < 30 ? "red" : value < 60 ? "orange" : "green",
-				}}
+				className={
+					value < 33
+						? "text-red-600"
+						: value < 66
+						? "text-yellow-600"
+						: "text-green-600"
+				}
 			>
 				{value}
 			</span>
@@ -161,9 +166,9 @@ function App() {
 
 	const [columnDefs] = useState([
 		{ field: "freelancer", minWidth: 200 },
-		{ field: "upworkProfile", minWidth: 200, cellRenderer: LinkRenderer },
-		{ field: "willowLink", minWidth: 200, cellRenderer: LinkRenderer },
-		{ field: "website", minWidth: 220, cellRenderer: LinkRenderer },
+		{ field: "upworkProfile", minWidth: 100, cellRenderer: LinkRenderer },
+		{ field: "willowLink", minWidth: 100, cellRenderer: LinkRenderer },
+		{ field: "website", minWidth: 120, cellRenderer: LinkRenderer },
 		{
 			headerName: "Desktop",
 			children: [

@@ -147,21 +147,22 @@ function AddFreelancerModal({
 								/>
 							</div>
 						))}
-						<button
-							type="submit"
-							onClick={cancelEdit}
-							className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-						>
-							Cancel
-						</button>
-						<button
-							onClick={handleSubmit}
-							className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-						>
-							Save
-						</button>
 					</form>
 				</DialogBody>
+				<DialogFooter className="bg-gray-800 p-4 rounded-b-lg">
+					<button
+						onClick={cancelEdit}
+						className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+					>
+						Cancel
+					</button>
+					<button
+						onClick={handleSubmit}
+						className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+					>
+						Save
+					</button>
+				</DialogFooter>
 			</Dialog>
 		</>
 	);
