@@ -81,10 +81,10 @@ function MetricRenderer(props) {
 			<span
 				className={
 					value < 33
-						? "text-red-600"
+						? "text-red-600 text-bold"
 						: value < 66
-						? "text-yellow-600"
-						: "text-green-600"
+						? "text-yellow-600 text-bold"
+						: "text-green-600 text-bold"
 				}
 			>
 				{value}
@@ -282,6 +282,7 @@ function App() {
 						filter: true,
 						resizable: true,
 					}}
+					rowHeight={50}
 				></AgGridReact>
 			</div>
 		</div>
