@@ -9,7 +9,11 @@ import "ag-grid-enterprise";
 import "./App.css";
 
 function ActionsRenderer(props) {
-	const { editFreelancer, deleteFreelancer, data } = props;
+	const {
+		// editFreelancer,
+		deleteFreelancer,
+		data,
+	} = props;
 	return (
 		<div className="flex flex-row justify-between align-middle mt-3">
 			{/* <span
