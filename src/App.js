@@ -108,6 +108,8 @@ function App() {
 				upworkProfile: "https://www.upwork.com/freelancers/~01a234b56c789d0123",
 				willowLink: "https://willowtreeapps.com/",
 				website: "https://www.johndoe.com",
+				price: 30,
+				designScore: 80,
 				"performance-desktop": 100,
 				"accessibiltiy-desktop": 90,
 				"best practices-desktop": 60,
@@ -123,6 +125,8 @@ function App() {
 				upworkProfile: "https://www.upwork.com/freelancers/~01a234b56c789d0123",
 				willowLink: "https://willowtreeapps.com/",
 				website: "https://www.johndoe.com",
+				price: 20,
+				designScore: 90,
 				"performance-desktop": 40,
 				"accessibiltiy-desktop": 50,
 				"best practices-desktop": 100,
@@ -176,8 +180,15 @@ function App() {
 			filter: "agTextColumnFilter",
 		},
 		{
+			field: "price",
+			headerName: "Price (/hr)",
+			cellRenderer: MetricRenderer,
+			filter: "agNumberColumnFilter",
+			menuTabs: ["filterMenuTab"],
+		},
+		{
 			field: "design-score",
-			headerName: "Design Score",
+			headerName: "Design Score (%)",
 			cellRenderer: MetricRenderer,
 			filter: "agNumberColumnFilter",
 			menuTabs: ["filterMenuTab"],
@@ -200,14 +211,14 @@ function App() {
 			children: [
 				{
 					field: "performance-desktop",
-					headerName: "Desktop",
+					headerName: "Desktop (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "performance-mobile",
-					headerName: "Mobile",
+					headerName: "Mobile (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
@@ -219,14 +230,14 @@ function App() {
 			children: [
 				{
 					field: "accessibiltiy-desktop",
-					headerName: "Desktop",
+					headerName: "Desktop (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "accessibiltiy-mobile",
-					headerName: "Mobile",
+					headerName: "Mobile (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
@@ -238,14 +249,14 @@ function App() {
 			children: [
 				{
 					field: "best practices-desktop",
-					headerName: "Desktop",
+					headerName: "Desktop (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "best practices-mobile",
-					headerName: "Mobile",
+					headerName: "Mobile (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
@@ -257,14 +268,14 @@ function App() {
 			children: [
 				{
 					field: "seo-desktop",
-					headerName: "Desktop",
+					headerName: "Desktop (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
 				},
 				{
 					field: "seo-mobile",
-					headerName: "Mobile",
+					headerName: "Mobile (%)",
 					cellRenderer: MetricRenderer,
 					filter: "agNumberColumnFilter",
 					menuTabs: ["filterMenuTab"],
