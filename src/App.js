@@ -176,6 +176,13 @@ function App() {
 			filter: "agTextColumnFilter",
 		},
 		{
+			field: "design-score",
+			headerName: "Design Score",
+			cellRenderer: MetricRenderer,
+			filter: "agNumberColumnFilter",
+			menuTabs: ["filterMenuTab"],
+		},
+		{
 			field: "upworkProfile",
 			minWidth: 100,
 			cellRenderer: LinkRenderer,

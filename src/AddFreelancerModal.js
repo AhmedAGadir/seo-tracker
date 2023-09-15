@@ -12,6 +12,7 @@ const getEmptyForm = () => ({
 	willowLink: "",
 	upworkProfile: "",
 	website: "",
+	designScore: 0,
 	"performance-desktop": 0,
 	"accessibiltiy-desktop": 0,
 	"best practices-desktop": 0,
@@ -92,6 +93,11 @@ function AddFreelancerModal({
 								field: "website",
 								label: "Website",
 								type: "text",
+							},
+							{
+								field: "designScore",
+								label: "Design Score",
+								type: "number",
 							},
 							{
 								field: "performance-desktop",
