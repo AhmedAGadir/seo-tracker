@@ -354,8 +354,58 @@ function App() {
 		console.log("rowData", rowData);
 	};
 
+	const exportFreelancers = () => {
+		// export rowData as JSON
+		const dataStr =
+			"data:text/json;charset=utf-8," +
+			encodeURIComponent(JSON.stringify(rowData));
+		const downloadAnchorNode = document.createElement("a");
+		downloadAnchorNode.setAttribute("href", dataStr);
+		downloadAnchorNode.setAttribute("download", "freelancers.json");
+		document.body.appendChild(downloadAnchorNode); // required for firefox
+		downloadAnchorNode.click();
+		downloadAnchorNode.remove();
+	};
+
+	const importFreelancers = () => {
+		// import rowData as JSON
+		const fileInput = document.createElement("input");
+		fileInput.setAttribute("type", "file");
+		fileInput.setAttribute("accept", ".json");
+		fileInput.onchange = (e) => {
+			const file = e.target.files[0];
+			const reader = new FileReader();
+			reader.readAsText(file, "UTF-8");
+			reader.onload = (readerEvent) => {
+				const content = readerEvent.target.result;
+				const importedRowData = JSON.parse(content);
+				// merge with existing rowData, filter out duplicates
+				const mergedRowData = [
+					...rowData,
+					...importedRowData.filter(
+						(importedRow) => !rowData.some((row) => row.id === importedRow.id)
+					),
+				];
+				setRowData(mergedRowData);
+			};
+		};
+		fileInput.click();
+	};
+
 	return (
 		<div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+			<button
+				onClick={exportFreelancers}
+				className="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4"
+			>
+				Export freelancers (JSON)
+			</button>
+			<button
+				onClick={importFreelancers}
+				className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4"
+			>
+				Import freelancers (JSON)
+			</button>
 			<AddFreelancerModal
 				key={editingFreelancerId}
 				cancelEdit={cancelEdit}
