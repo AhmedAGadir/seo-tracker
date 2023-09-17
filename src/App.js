@@ -424,6 +424,22 @@ function App() {
 	return (
 		<div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
 			<button
+				onClick={() => {
+					// delete all on window.confirm
+					if (
+						window.confirm(
+							"Are you sure you want to delete all freelancers? This cannot be undone."
+						)
+					) {
+						setRowData([]);
+					}
+				}}
+				disabled={!rowData.length}
+				className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4"
+			>
+				Delete All
+			</button>
+			<button
 				onClick={exportFreelancers}
 				className="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4"
 			>
@@ -456,6 +472,7 @@ function App() {
 						resizable: true,
 						flex: 1,
 						editable: true,
+						floatingFilter: true,
 					}}
 					rowHeight={50}
 					sideBar={sideBar}
