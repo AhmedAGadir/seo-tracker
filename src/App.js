@@ -8,6 +8,31 @@ import "ag-grid-enterprise";
 
 import "./App.css";
 
+function FreelancerRenderer(props) {
+	const { value } = props;
+	return (
+		<div>
+			<a
+				href={props.data.upworkProfile ? props.data.upworkProfile : "#"}
+				target="_blank"
+				rel="noreferrer"
+				style={{
+					color: "#1ab394",
+					fontWeight: "bold",
+					textDecoration: "none",
+					// hover
+					":hover": {
+						color: "#1ab394",
+						textDecoration: "underline",
+					},
+				}}
+			>
+				{value}
+			</a>
+		</div>
+	);
+}
+
 function ActionsRenderer(props) {
 	const {
 		// editFreelancer,
@@ -174,6 +199,7 @@ function App() {
 	const [columnDefs] = useState([
 		{
 			field: "freelancer",
+			cellRenderer: FreelancerRenderer,
 			maxWidth: 200,
 			width: 150,
 			pinned: "left",
@@ -182,7 +208,10 @@ function App() {
 		{
 			field: "price",
 			headerName: "Price (/hr)",
-			cellRenderer: MetricRenderer,
+			valueGetter: (params) => {
+				// remove £ symbol if present and convert value to number
+				return Number(params.data.price.replace("£", ""));
+			},
 			filter: "agNumberColumnFilter",
 			menuTabs: ["filterMenuTab"],
 		},
