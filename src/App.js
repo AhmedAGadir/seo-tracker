@@ -443,13 +443,13 @@ function App() {
 				onClick={exportFreelancers}
 				className="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4"
 			>
-				Export freelancers (JSON)
+				Save
 			</button>
 			<button
 				onClick={importFreelancers}
 				className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4"
 			>
-				Import freelancers (JSON)
+				Upload
 			</button>
 			<AddFreelancerModal
 				key={editingFreelancerId}
