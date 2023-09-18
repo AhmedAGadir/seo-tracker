@@ -209,8 +209,11 @@ function App() {
 			field: "price",
 			headerName: "Price (/hr)",
 			valueGetter: (params) => {
+				const price = params.data.price;
+				if (!price) return null;
+				if (typeof price === "number") return price;
 				// remove £ symbol if present and convert value to number
-				return Number(params.data.price.replace("£", ""));
+				return Number(price.replace("£", ""));
 			},
 			filter: "agNumberColumnFilter",
 			menuTabs: ["filterMenuTab"],
